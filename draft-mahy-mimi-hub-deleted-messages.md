@@ -9,8 +9,8 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Applications and Real-Time"
+workgroup: "More Instant Messaging Interoperability"
 keyword:
  - MIMI content
  - deleting messages
@@ -18,12 +18,12 @@ keyword:
  - deleting unauthorized messages
  - hub-deleted
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "More Instant Messaging Interoperability"
+  type: "Working Group"
+  mail: "mimi@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/mimi/"
+  github: "rohanmahy/mimi-hub-deleted-messages"
+  latest: "https://rohanmahy.github.io/mimi-hub-deleted-messages/draft-mahy-mimi-hub-deleted-messages.html"
 
 author:
  -
