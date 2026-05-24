@@ -59,9 +59,11 @@ After an `AbuseReport` is sent (see {{Section 5.9 of !I-D.ietf-mimi-protocol}}),
 If the abusive message(s) were MIMI content {{!I-D.ietf-mimi-content}}, the hub can inform clients in the room to mark the abusive or other unauthorized messages as deleted.
 The hub could also delete messages for other reasons, such as upon discovering that messages were sent while an account was compromised, or that the sender of the messages opened an account under false pretenses.
 
-The hub signals that messages should be deleted by sending an AppEphemeral proposal containing a `hub_deleted_component` with a list of MIMI Content message IDs to delete.
+The hub signals that messages should be deleted by sending one or more AppEphemeral proposal containing a `hub_deleted_messages` with a list of MIMI Content message IDs to delete.
+Each proposal contains messages with the same deletion timestamp and (optional) reason code.
+More than one AppEphemeral proposal with the `hub_deleted_messages` component type can be present in the same Commit.
 
-Members of the MLS group receiving this proposal, verify that the proposal signature is valid and corresponds to a user in the participant list with a role containing the `canDeleteOtherMessage` for any type of message, or the `canDeleteOtherReaction` if the messages with `hub_deleted_component.delete_messages` are all reactions.
+Members of the MLS group receiving this proposal, verify that the proposal signature is valid and corresponds to a user in the participant list with a role containing the `canDeleteOtherMessage` for any type of message, or the `canDeleteOtherReaction` if the messages within `hub_deleted_component.delete_messages` are all reactions.
 
 ~~~ tls
 uint8[32] MessageId;
@@ -69,6 +71,7 @@ uint8[32] MessageId;
 struct {
     uint64 hub_deleted_timestamp;
     IdentityUri remover_uri;
+    optional<AbuseType> reason_code;
     MessageId deleted_messages<V>;
     /* SignWithLabel(., "HubDeletedComponentTBS", */
     /*                   HubDeletedComponentTBS ) */
@@ -78,6 +81,7 @@ struct {
 struct {
     uint64 hub_deleted_timestamp;
     IdentityUri remover_uri;
+    optional<AbuseType> reason_code;
     MessageId deleted_messages<V>;
 } HubDeletedComponentTBS
 
