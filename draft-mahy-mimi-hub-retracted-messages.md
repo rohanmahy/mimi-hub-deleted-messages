@@ -62,7 +62,7 @@ In many such cases, the provider even has a legal duty to act.
 A hub provider may also discover that a specific participant has violated its terms of service generally, in a manner that causes their content to be a danger to other participants.
 For example, an account which is fraudulently impersonating another user can be removed using an external remove proposal, but removing their content messages requires another mechanism.
 
-This specification describes two new application components to signal messages to be deleted.
+This specification describes two new application components to signal messages to be retracted.
 
 
 # Conventions and Definitions
@@ -78,7 +78,7 @@ The hub could also retract messages for other reasons, such as upon discovering 
 
 ## Removing specific messages by message ID
 
-The hub signals that messages should be retracted by sending one or more AppEphemeral proposal containing a `hub_retracted_messages` component with a list of MIMI Content message IDs to retract/delete.
+The hub signals that individual, specific messages should be retracted by sending one or more AppEphemeral proposals, each containing a `hub_retracted_messages` component with a list of MIMI Content message IDs to retract/delete.
 Each proposal contains messages with the same retracted timestamp and (optional) reason code.
 More than one AppEphemeral proposal with the `hub_retracted_messages` component type can be present in the same Commit (for example to delete different messages with different `reason_code`s).
 
@@ -114,13 +114,13 @@ For example, a user who is impersonating a government economy or health spokespe
 
 Instead it is useful to label all messages from the fraudulent source as suspect and retract them, possibly starting at a specific time (for example, if an account was compromised).
 
-The hub signals that a range of messages sent by a particular sender should be retracted by sending one or more AppEphemeral proposal.
-Each proposal contains a `reason_code`; and a `hub_retracted_range` component with an `abusive_sender_uri`, and optionally a `starting_timestamp` indicating when the sender began to be untrustworthy.
+The hub signals that a range of messages sent by a particular sender should be retracted by sending an AppEphemeral proposal with a `hub_retracted_range` component.
+Each of these components contains a `reason_code`, an `abusive_sender_uri`, and optionally a `starting_timestamp` indicating when the sender began to be untrustworthy.
 More than one AppEphemeral proposal with the `hub_retracted_range` component type can be present in the same Commit.
-A single Commit MUST NOT contain `hub_retracted_range` proposals for the same `abusive_sender_uri`.
+A single Commit MUST NOT contain AppEphemeral proposals with `hub_retracted_range` components for the same `abusive_sender_uri`.
 
 Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the `canDeleteOtherMessage` capability.
-Then they retract all messages (including reactions, edits, deletes, and replies) sent by the `abusive_sender_uri`, starting from and including the `starting_timestamp` if present, or since the formation of the room if `starting_timestamp` is absent.
+Then they retract all messages (including reactions, edits, deletes, and replies) sent by the `abusive_sender_uri`, starting from and including the `starting_timestamp` if present, or since the receiver's earliest messages in the room if `starting_timestamp` is absent.
 
 ~~~ tls
 struct {
@@ -149,7 +149,7 @@ struct {
 The security of this system depends on including only systems authorized to send external proposals in the `external_senders` MLS extension in the GroupContext; and correctly setting the roles and capabilities in {{!I-D.ietf-mimi-room-policy}} for the entity and role that sends external proposals with the components described in this specification.
 
 In the case of `hub_retracted_messages`, the security of retraction also relies on the security of the franking system in MIMI protocol.
-It also assumes that the hub provider can come up with the correct message ID (which is straightforward when the content is in the MIMI content format).
+It also assumes that the hub provider can come up with the correct message ID (which is straightforward when it has the plaintext content of a message in the MIMI content format).
 
 
 # IANA Considerations
