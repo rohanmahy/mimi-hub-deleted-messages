@@ -1209,7 +1209,7 @@ In some cases, the abusive content may be illegal and/or sufficiently disturbing
 In many such cases, the provider even has a legal duty to act.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">A hub provider may also discover that a specific participant has violated its terms of service generally, in a manner that causes their content to be a danger to other participants.
 For example, an account which is fraudulently impersonating another user can be removed using an external remove proposal, but removing their content messages requires another mechanism.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This specification describes two new application components to signal messages to be deleted.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">This specification describes two new application components to signal messages to be retracted.<a href="#section-1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1236,7 +1236,7 @@ The hub could also retract messages for other reasons, such as upon discovering 
         <h3 id="name-removing-specific-messages-">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-removing-specific-messages-" class="section-name selfRef">Removing specific messages by message ID</a>
         </h3>
-<p id="section-3.1-1">The hub signals that messages should be retracted by sending one or more AppEphemeral proposal containing a <code>hub_retracted_messages</code> component with a list of MIMI Content message IDs to retract/delete.
+<p id="section-3.1-1">The hub signals that individual, specific messages should be retracted by sending one or more AppEphemeral proposals, each containing a <code>hub_retracted_messages</code> component with a list of MIMI Content message IDs to retract/delete.
 Each proposal contains messages with the same retracted timestamp and (optional) reason code.
 More than one AppEphemeral proposal with the <code>hub_retracted_messages</code> component type can be present in the same Commit (for example to delete different messages with different <code>reason_code</code>s).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the <code>canDeleteOtherMessage</code> for any type of message, or the <code>canDeleteOtherReaction</code> if the messages within <code>hub_retracted_component.retracted_messages</code> are all reactions.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
@@ -1274,12 +1274,12 @@ HubRetractedComponent hub_retracted_component;
 <p id="section-3.2-1">In the case where the provider discovers a client trying to commit fraud or deception, the provider may wish to take immediate action without waiting for every message sent to be reported.
 For example, a user who is impersonating a government economy or health spokesperson, or a recruiter at a well-known firm could send messages causing panic or phishing, but ordinary viewers may have no reason to report the messages, believing them to be from a legitimate source.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2">Instead it is useful to label all messages from the fraudulent source as suspect and retract them, possibly starting at a specific time (for example, if an account was compromised).<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.2-3">The hub signals that a range of messages sent by a particular sender should be retracted by sending one or more AppEphemeral proposal.
-Each proposal contains a <code>reason_code</code>; and a <code>hub_retracted_range</code> component with an <code>abusive_sender_uri</code>, and optionally a <code>starting_timestamp</code> indicating when the sender began to be untrustworthy.
+<p id="section-3.2-3">The hub signals that a range of messages sent by a particular sender should be retracted by sending an AppEphemeral proposal with a <code>hub_retracted_range</code> component.
+Each of these components contains a <code>reason_code</code>, an <code>abusive_sender_uri</code>, and optionally a <code>starting_timestamp</code> indicating when the sender began to be untrustworthy.
 More than one AppEphemeral proposal with the <code>hub_retracted_range</code> component type can be present in the same Commit.
-A single Commit <span class="bcp14">MUST NOT</span> contain <code>hub_retracted_range</code> proposals for the same <code>abusive_sender_uri</code>.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+A single Commit <span class="bcp14">MUST NOT</span> contain AppEphemeral proposals with <code>hub_retracted_range</code> components for the same <code>abusive_sender_uri</code>.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <p id="section-3.2-4">Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the <code>canDeleteOtherMessage</code> capability.
-Then they retract all messages (including reactions, edits, deletes, and replies) sent by the <code>abusive_sender_uri</code>, starting from and including the <code>starting_timestamp</code> if present, or since the formation of the room if <code>starting_timestamp</code> is absent.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+Then they retract all messages (including reactions, edits, deletes, and replies) sent by the <code>abusive_sender_uri</code>, starting from and including the <code>starting_timestamp</code> if present, or since the receiver's earliest messages in the room if <code>starting_timestamp</code> is absent.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 <div class="lang-tls sourcecode" id="section-3.2-5">
 <pre>
 struct {
@@ -1313,7 +1313,7 @@ struct {
       </h2>
 <p id="section-4-1">The security of this system depends on including only systems authorized to send external proposals in the <code>external_senders</code> MLS extension in the GroupContext; and correctly setting the roles and capabilities in <span>[<a href="#I-D.ietf-mimi-room-policy" class="cite xref">I-D.ietf-mimi-room-policy</a>]</span> for the entity and role that sends external proposals with the components described in this specification.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">In the case of <code>hub_retracted_messages</code>, the security of retraction also relies on the security of the franking system in MIMI protocol.
-It also assumes that the hub provider can come up with the correct message ID (which is straightforward when the content is in the MIMI content format).<a href="#section-4-2" class="pilcrow">¶</a></p>
+It also assumes that the hub provider can come up with the correct message ID (which is straightforward when it has the plaintext content of a message in the MIMI content format).<a href="#section-4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">

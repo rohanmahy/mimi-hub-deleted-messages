@@ -116,7 +116,7 @@ Table of Contents
    messages requires another mechanism.
 
    This specification describes two new application components to signal
-   messages to be deleted.
+   messages to be retracted.
 
 2.  Conventions and Definitions
 
@@ -144,11 +144,12 @@ Table of Contents
 
 3.1.  Removing specific messages by message ID
 
-   The hub signals that messages should be retracted by sending one or
-   more AppEphemeral proposal containing a hub_retracted_messages
-   component with a list of MIMI Content message IDs to retract/delete.
-   Each proposal contains messages with the same retracted timestamp and
-   (optional) reason code.  More than one AppEphemeral proposal with the
+   The hub signals that individual, specific messages should be
+   retracted by sending one or more AppEphemeral proposals, each
+   containing a hub_retracted_messages component with a list of MIMI
+   Content message IDs to retract/delete.  Each proposal contains
+   messages with the same retracted timestamp and (optional) reason
+   code.  More than one AppEphemeral proposal with the
    hub_retracted_messages component type can be present in the same
    Commit (for example to delete different messages with different
    reason_codes).
@@ -196,14 +197,14 @@ Table of Contents
    (for example, if an account was compromised).
 
    The hub signals that a range of messages sent by a particular sender
-   should be retracted by sending one or more AppEphemeral proposal.
-   Each proposal contains a reason_code; and a hub_retracted_range
-   component with an abusive_sender_uri, and optionally a
+   should be retracted by sending an AppEphemeral proposal with a
+   hub_retracted_range component.  Each of these components contains a
+   reason_code, an abusive_sender_uri, and optionally a
    starting_timestamp indicating when the sender began to be
    untrustworthy.  More than one AppEphemeral proposal with the
    hub_retracted_range component type can be present in the same Commit.
-   A single Commit MUST NOT contain hub_retracted_range proposals for
-   the same abusive_sender_uri.
+   A single Commit MUST NOT contain AppEphemeral proposals with
+   hub_retracted_range components for the same abusive_sender_uri.
 
    Members of the MLS group receiving this proposal, verify that the
    proposal signature is valid, and the proposal sender corresponds to a
@@ -211,8 +212,8 @@ Table of Contents
    canDeleteOtherMessage capability.  Then they retract all messages
    (including reactions, edits, deletes, and replies) sent by the
    abusive_sender_uri, starting from and including the
-   starting_timestamp if present, or since the formation of the room if
-   starting_timestamp is absent.
+   starting_timestamp if present, or since the receiver's earliest
+   messages in the room if starting_timestamp is absent.
 
    struct {
        uint64 hub_retracted_timestamp;
@@ -245,8 +246,8 @@ Table of Contents
    In the case of hub_retracted_messages, the security of retraction
    also relies on the security of the franking system in MIMI protocol.
    It also assumes that the hub provider can come up with the correct
-   message ID (which is straightforward when the content is in the MIMI
-   content format).
+   message ID (which is straightforward when it has the plaintext
+   content of a message in the MIMI content format).
 
 5.  IANA Considerations
 
