@@ -10,7 +10,7 @@ Expires: 26 December 2026
 
 More Instance Messaging Interoperability (MIMI): Retracting MIMI Content
                       Messages by the Hub Provider
-              draft-mahy-mimi-hub-deleted-messages-latest
+             draft-mahy-mimi-hub-retracted-messages-latest
 
 Abstract
 
@@ -26,9 +26,9 @@ About This Document
 
    The latest revision of this draft can be found at
    https://rohanmahy.github.io/mimi-hub-deleted-messages/draft-mahy-
-   mimi-hub-deleted-messages.html.  Status information for this document
-   may be found at https://datatracker.ietf.org/doc/draft-mahy-mimi-hub-
-   deleted-messages/.
+   mimi-hub-retracted-messages.html.  Status information for this
+   document may be found at https://datatracker.ietf.org/doc/draft-mahy-
+   mimi-hub-retracted-messages/.
 
    Discussion of this document takes place on the More Instant Messaging
    Interoperability Working Group mailing list (mailto:mimi@ietf.org),
