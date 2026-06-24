@@ -18,7 +18,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-mahy-mimi-hub-deleted-messages.xml
+draft-mahy-mimi-hub-retracted-messages.xml
 package-lock.json
 report.xml
 !requirements.txt
