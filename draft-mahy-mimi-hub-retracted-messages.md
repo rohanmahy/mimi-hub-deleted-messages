@@ -3,7 +3,7 @@ title: "More Instance Messaging Interoperability (MIMI): Retracting MIMI Content
 abbrev: "MIMI Hub-Retracted Messages"
 category: info
 
-docname: draft-mahy-mimi-hub-deleted-messages-latest
+docname: draft-mahy-mimi-hub-retracted-messages-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -13,17 +13,20 @@ area: "Applications and Real-Time"
 workgroup: "More Instant Messaging Interoperability"
 keyword:
  - MIMI content
+ - retracting abusive messages
+ - retracting unauthorized messages
  - deleting messages
  - deleting abusive messages
  - deleting unauthorized messages
  - hub-deleted
+ - hub-retracted
 venue:
   group: "More Instant Messaging Interoperability"
   type: "Working Group"
   mail: "mimi@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/mimi/"
   github: "rohanmahy/mimi-hub-deleted-messages"
-  latest: "https://rohanmahy.github.io/mimi-hub-deleted-messages/draft-mahy-mimi-hub-deleted-messages.html"
+  latest: "https://rohanmahy.github.io/mimi-hub-deleted-messages/draft-mahy-mimi-hub-retracted-messages.html"
 
 author:
  -
