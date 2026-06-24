@@ -1,13 +1,13 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# Signaling Deletion of More Instance Messaging Interoperability (MIMI) Content Messages by the Hub Provider
+# More Instance Messaging Interoperability (MIMI): Retracting MIMI Content Messages by the Hub Provider
 
-This is the working area for the individual Internet-Draft, "Signaling Deletion of More Instance Messaging Interoperability (MIMI) Content Messages by the Hub Provider".
+This is the working area for the individual Internet-Draft, "More Instance Messaging Interoperability (MIMI): Retracting MIMI Content Messages by the Hub Provider".
 
-* [Editor's Copy](https://rohanmahy.github.io/mimi-hub-deleted-messages/#go.draft-mahy-mimi-hub-deleted-messages.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mimi-hub-deleted-messages)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mimi-hub-deleted-messages)
-* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mimi-hub-deleted-messages/#go.draft-mahy-mimi-hub-deleted-messages.diff)
+* [Editor's Copy](https://rohanmahy.github.io/mimi-hub-deleted-messages/#go.draft-mahy-mimi-hub-retracted-messages.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mimi-hub-retracted-messages)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mimi-hub-retracted-messages)
+* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mimi-hub-deleted-messages/#go.draft-mahy-mimi-hub-retracted-messages.diff)
 
 
 ## Contributing
