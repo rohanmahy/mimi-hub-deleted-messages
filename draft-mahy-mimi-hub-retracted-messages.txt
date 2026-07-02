@@ -3,9 +3,9 @@
 
 
 More Instant Messaging Interoperability                          R. Mahy
-Internet-Draft                                              24 June 2026
+Internet-Draft                                               2 July 2026
 Intended status: Informational                                          
-Expires: 26 December 2026
+Expires: 3 January 2027
 
 
 More Instance Messaging Interoperability (MIMI): Retracting MIMI Content
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2026.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
@@ -79,7 +79,7 @@ Table of Contents
    4.  Security Considerations
    5.  IANA Considerations
      5.1.  hub_retracted_messages app component
-     5.2.  hub_retracted_messages app component
+     5.2.  hub_retracted_range app component
    6.  Normative References
    Author's Address
 
@@ -159,7 +159,7 @@ Table of Contents
    user in the participant list with a role containing the
    canDeleteOtherMessage for any type of message, or the
    canDeleteOtherReaction if the messages within
-   hub_retracted_component.retracted_messages are all reactions.
+   hub_retracted_messages.retracted_messages are all reactions.
 
    uint8[32] MessageId;
 
@@ -168,19 +168,9 @@ Table of Contents
        IdentityUri remover_uri;
        optional<AbuseType> reason_code;
        MessageId retracted_messages<V>;
-       /* SignWithLabel(., "HubRetractedComponentTBS", */
-       /*                   HubRetractedComponentTBS ) */
-       opaque signature<V>;
-   } HubRetractedComponent;
+   } HubRetractedMessagesComponent;
 
-   struct {
-       uint64 hub_retracted_timestamp;
-       IdentityUri remover_uri;
-       optional<AbuseType> reason_code;
-       MessageId retracted_messages<V>;
-   } HubRetractedComponentTBS;
-
-   HubRetractedComponent hub_retracted_component;
+   HubRetractedMessagesComponent hub_retracted_messages;
 
 3.2.  Removing ranges of messages sent by a specific participant
 
@@ -221,18 +211,9 @@ Table of Contents
        optional<AbuseType> reason_code;
        IdentityUri abusive_sender_uri;
        optional<uint64> starting_timestamp;
-       /* SignWithLabel(., "HubRetractedRangeComponentTBS", */
-       /*                   HubRetractedRangeComponentTBS ) */
-       opaque signature<V>;
    } HubRetractedRangeComponent;
 
-   struct {
-       uint64 hub_retracted_timestamp;
-       IdentityUri remover_uri;
-       optional<AbuseType> reason_code;
-       IdentityUri abusive_sender_uri;
-       optional<uint64> starting_timestamp;
-   } HubRetractedRangeComponentTBS;
+   HubRetractedRangeComponent hub_retracted_range;
 
 4.  Security Considerations
 
@@ -269,7 +250,7 @@ Table of Contents
 
    *  Reference: RFCXXXX
 
-5.2.  hub_retracted_messages app component
+5.2.  hub_retracted_range app component
 
    *  Value: TBD2 (suggested value 0x0051)
 

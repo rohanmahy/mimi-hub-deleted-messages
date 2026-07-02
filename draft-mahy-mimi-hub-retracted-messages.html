@@ -1052,11 +1052,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MIMI Hub-Retracted Messages</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 26 December 2026</td>
+<td class="center">Expires 3 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg {
 <dd class="internet-draft">draft-mahy-mimi-hub-retracted-messages-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-24" class="published">24 June 2026</time>
+<time datetime="2026-07-02" class="published">2 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-26">26 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-03">3 January 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ This document defines mechanisms for providers to signal this to in-room partici
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 26 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1180,7 +1180,7 @@ This document defines mechanisms for providers to signal this to in-room partici
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-hub_retracted_messages-app-" class="internal xref">hub_retracted_messages app component</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-hub_retracted_messages-app-c" class="internal xref">hub_retracted_messages app component</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-hub_retracted_range-app-com" class="internal xref">hub_retracted_range app component</a></p>
 </li>
             </ul>
 </li>
@@ -1239,7 +1239,7 @@ The hub could also retract messages for other reasons, such as upon discovering 
 <p id="section-3.1-1">The hub signals that individual, specific messages should be retracted by sending one or more AppEphemeral proposals, each containing a <code>hub_retracted_messages</code> component with a list of MIMI Content message IDs to retract/delete.
 Each proposal contains messages with the same retracted timestamp and (optional) reason code.
 More than one AppEphemeral proposal with the <code>hub_retracted_messages</code> component type can be present in the same Commit (for example to delete different messages with different <code>reason_code</code>s).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the <code>canDeleteOtherMessage</code> for any type of message, or the <code>canDeleteOtherReaction</code> if the messages within <code>hub_retracted_component.retracted_messages</code> are all reactions.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the <code>canDeleteOtherMessage</code> for any type of message, or the <code>canDeleteOtherReaction</code> if the messages within <code>hub_retracted_messages.retracted_messages</code> are all reactions.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 <div class="lang-tls sourcecode" id="section-3.1-3">
 <pre>
 uint8[32] MessageId;
@@ -1249,19 +1249,9 @@ struct {
     IdentityUri remover_uri;
     optional&lt;AbuseType&gt; reason_code;
     MessageId retracted_messages&lt;V&gt;;
-    /* SignWithLabel(., "HubRetractedComponentTBS", */
-    /*                   HubRetractedComponentTBS ) */
-    opaque signature&lt;V&gt;;
-} HubRetractedComponent;
+} HubRetractedMessagesComponent;
 
-struct {
-    uint64 hub_retracted_timestamp;
-    IdentityUri remover_uri;
-    optional&lt;AbuseType&gt; reason_code;
-    MessageId retracted_messages&lt;V&gt;;
-} HubRetractedComponentTBS;
-
-HubRetractedComponent hub_retracted_component;
+HubRetractedMessagesComponent hub_retracted_messages;
 </pre><a href="#section-3.1-3" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1288,18 +1278,9 @@ struct {
     optional&lt;AbuseType&gt; reason_code;
     IdentityUri abusive_sender_uri;
     optional&lt;uint64&gt; starting_timestamp;
-    /* SignWithLabel(., "HubRetractedRangeComponentTBS", */
-    /*                   HubRetractedRangeComponentTBS ) */
-    opaque signature&lt;V&gt;;
 } HubRetractedRangeComponent;
 
-struct {
-    uint64 hub_retracted_timestamp;
-    IdentityUri remover_uri;
-    optional&lt;AbuseType&gt; reason_code;
-    IdentityUri abusive_sender_uri;
-    optional&lt;uint64&gt; starting_timestamp;
-} HubRetractedRangeComponentTBS;
+HubRetractedRangeComponent hub_retracted_range;
 </pre><a href="#section-3.2-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1348,10 +1329,10 @@ It also assumes that the hub provider can come up with the correct message ID (w
         </ul>
 </section>
 </div>
-<div id="hubretractedmessages-app-component-1">
+<div id="hubretractedrange-app-component">
 <section id="section-5.2">
-        <h3 id="name-hub_retracted_messages-app-c">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-hub_retracted_messages-app-c" class="section-name selfRef">hub_retracted_messages app component</a>
+        <h3 id="name-hub_retracted_range-app-com">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-hub_retracted_range-app-com" class="section-name selfRef">hub_retracted_range app component</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-5.2-1.1">
