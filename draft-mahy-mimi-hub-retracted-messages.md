@@ -82,7 +82,7 @@ The hub signals that individual, specific messages should be retracted by sendin
 Each proposal contains messages with the same retracted timestamp and (optional) reason code.
 More than one AppEphemeral proposal with the `hub_retracted_messages` component type can be present in the same Commit (for example to delete different messages with different `reason_code`s).
 
-Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the `canDeleteOtherMessage` for any type of message, or the `canDeleteOtherReaction` if the messages within `hub_retracted_component.retracted_messages` are all reactions.
+Members of the MLS group receiving this proposal, verify that the proposal signature is valid, and the proposal sender corresponds to a user in the participant list with a role containing the `canDeleteOtherMessage` for any type of message, or the `canDeleteOtherReaction` if the messages within `hub_retracted_messages.retracted_messages` are all reactions.
 
 ~~~ tls
 uint8[32] MessageId;
@@ -92,19 +92,9 @@ struct {
     IdentityUri remover_uri;
     optional<AbuseType> reason_code;
     MessageId retracted_messages<V>;
-    /* SignWithLabel(., "HubRetractedComponentTBS", */
-    /*                   HubRetractedComponentTBS ) */
-    opaque signature<V>;
-} HubRetractedComponent;
+} HubRetractedMessagesComponent;
 
-struct {
-    uint64 hub_retracted_timestamp;
-    IdentityUri remover_uri;
-    optional<AbuseType> reason_code;
-    MessageId retracted_messages<V>;
-} HubRetractedComponentTBS;
-
-HubRetractedComponent hub_retracted_component;
+HubRetractedMessagesComponent hub_retracted_messages;
 ~~~
 
 ## Removing ranges of messages sent by a specific participant
@@ -129,18 +119,9 @@ struct {
     optional<AbuseType> reason_code;
     IdentityUri abusive_sender_uri;
     optional<uint64> starting_timestamp;
-    /* SignWithLabel(., "HubRetractedRangeComponentTBS", */
-    /*                   HubRetractedRangeComponentTBS ) */
-    opaque signature<V>;
 } HubRetractedRangeComponent;
 
-struct {
-    uint64 hub_retracted_timestamp;
-    IdentityUri remover_uri;
-    optional<AbuseType> reason_code;
-    IdentityUri abusive_sender_uri;
-    optional<uint64> starting_timestamp;
-} HubRetractedRangeComponentTBS;
+HubRetractedRangeComponent hub_retracted_range;
 ~~~
 
 
@@ -167,7 +148,7 @@ This document registers the following two MLS application components per
 - Recommended: Y
 - Reference: RFCXXXX
 
-## hub_retracted_messages app component
+## hub_retracted_range app component
 
 - Value: TBD2 (suggested value 0x0051)
 - Name: hub_retracted_range
