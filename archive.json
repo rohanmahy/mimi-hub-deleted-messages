@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-15T04:55:38.959002+00:00",
+  "timestamp": "2026-11-17T06:40:26.676447+00:00",
   "repo": "rohanmahy/mimi-hub-deleted-messages",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOSTT-mM8AAAABf6sRYA",
+      "title": "-00: an external sender's role, the time base for ranges, and references",
+      "url": "https://github.com/rohanmahy/mimi-hub-deleted-messages/issues/1",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Reading -00 for mimid (from the remote MIMI interop table at the IETF 127 hackathon), some gaps:\n\n1. **Who may send it.** Members accept the proposal when \"the proposal sender corresponds to a user in the participant list with a role containing canDeleteOtherMessage\" (\u00a73). The hub sends it as an external proposal, though, and an external sender isn't a participant-list user. Security Considerations points at room-policy roles for external senders, but the check in \u00a73 doesn't say how an external sender holds a role. Room-policy-04 \u00a74 preauthorization, or a rule for external senders stated here?\n2. **Time base.** What is starting_timestamp compared with? MIMI content carries no send time, and the hub's accepted timestamp is in the FanoutMessage, which members may not all keep. \"Since the receiver's earliest messages in the room\" depends on each receiver's history, so members can end up retracting different sets.\n3. **Later joiners.** Members who joined after the retracted messages were sent have nothing to retract. Presumably they do nothing, but it would help to say so.\n4. **Type name.** IdentityUri (in both structs) isn't defined anywhere. mimi-protocol-07 uses IdentifierUri.\n5. **References:**\n   - franking is \"Section 3.4.1\" of mimi-protocol, now \u00a75.4.1 in -07;\n   - the component registry is \"Section 7.6\" of mls-extensions, now \u00a77.5 in -11;\n   - content-08, room-policy-03 and extensions-09 have newer versions.\n",
+      "createdAt": "2026-11-17T03:59:20Z",
+      "updatedAt": "2026-11-17T03:59:20Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
